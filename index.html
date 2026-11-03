@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patra – AI Resume Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Serif+4:wght@400;600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">Patra<span>AI resume builder</span></div>
+  <div class="controls">
+    <label class="ctl">Template
+      <select id="template">
+        <option value="classic">Classic</option>
+        <option value="modern">Modern</option>
+        <option value="sidebar">Sidebar</option>
+      </select>
+    </label>
+    <label class="ctl">Colour <input type="color" id="accent" value="#1f3a5f"></label>
+    <button class="btn ghost" id="btnSample">Load sample</button>
+    <button class="btn ghost" id="btnExport">Export JSON</button>
+    <button class="btn ghost" id="btnImport">Import JSON</button>
+    <input type="file" id="fileImport" accept="application/json" hidden>
+    <button class="btn primary" id="btnPrint">Download PDF</button>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="editor" aria-label="Resume editor">
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="basics" role="tab">Basics</button>
+      <button class="tab" data-tab="work" role="tab">Experience</button>
+      <button class="tab" data-tab="edu" role="tab">Education &amp; Skills</button>
+      <button class="tab ai" data-tab="ai" role="tab">AI tools</button>
+    </nav>
+
+    <div class="pane active" id="pane-basics">
+      <div class="grid2">
+        <label>Full name<input data-f="name" placeholder="Aarav Sharma"></label>
+        <label>Job title<input data-f="title" placeholder="Full Stack Developer"></label>
+        <label>Email<input data-f="email" type="email" placeholder="aarav@email.com"></label>
+        <label>Phone<input data-f="phone" placeholder="+91 98765 43210"></label>
+        <label>City<input data-f="location" placeholder="Ludhiana, Punjab"></label>
+        <label>Website / LinkedIn<input data-f="link" placeholder="linkedin.com/in/aarav"></label>
+      </div>
+      <label>Professional summary
+        <textarea data-f="summary" rows="5" placeholder="2–4 lines about who you are and what you do best."></textarea>
+      </label>
+      <button class="btn soft" id="aiSummary">Write summary with AI</button>
+    </div>
+
+    <div class="pane" id="pane-work">
+      <div id="expList"></div>
+      <button class="btn soft" data-add="experience">Add job</button>
+      <h3>Projects</h3>
+      <div id="projList"></div>
+      <button class="btn soft" data-add="projects">Add project</button>
+    </div>
+
+    <div class="pane" id="pane-edu">
+      <div id="eduList"></div>
+      <button class="btn soft" data-add="education">Add education</button>
+      <label class="mt">Skills <small>separate with commas</small>
+        <textarea data-f="skills" rows="3" placeholder="JavaScript, React, Node.js, SQL, Git"></textarea>
+      </label>
+    </div>
+
+    <div class="pane" id="pane-ai">
+      <div class="card">
+        <h3>Skill ideas</h3>
+        <p class="hint">Based on your job title. Click a skill to add it.</p>
+        <button class="btn soft" id="aiSkills">Suggest skills</button>
+        <div id="skillChips" class="chips"></div>
+      </div>
+      <div class="card">
+        <h3>ATS score</h3>
+        <p class="hint">Paste a job description to also check keyword match. Leave empty for a general check.</p>
+        <textarea id="jd" rows="5" placeholder="Paste job description here (optional)"></textarea>
+        <button class="btn primary" id="aiAts">Check my resume</button>
+        <div id="atsResult"></div>
+      </div>
+      <div class="card">
+        <h3>Use Claude for better writing <small>(optional)</small></h3>
+        <p class="hint">Without a key, Patra uses its built-in rules engine that works offline. Add an Anthropic API key to get AI-written text. The key stays in your browser only.</p>
+        <input id="apiKey" type="password" placeholder="sk-ant-…" autocomplete="off">
+        <div class="row">
+          <button class="btn soft" id="saveKey">Save key</button>
+          <button class="btn ghost" id="clearKey">Remove key</button>
+          <span id="keyStatus" class="hint"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="preview" aria-label="Resume preview">
+    <div class="paper-wrap" id="paperWrap">
+      <div class="paper" id="resume"></div>
+    </div>
+  </section>
+</main>
+
+<div id="toast" role="status"></div>
+<script src="js/ai.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
